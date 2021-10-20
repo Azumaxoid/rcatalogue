@@ -1,0 +1,2 @@
+class SockTag < ApplicationRecord
+end

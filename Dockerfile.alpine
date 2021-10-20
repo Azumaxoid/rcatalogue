@@ -1,0 +1,47 @@
+FROM ruby:3.0-alpine3.14
+
+# throw errors if Gemfile has been modified since Gemfile.lock
+RUN apk update
+RUN apk add --no-cache libc6-compat && ln -s /lib/libc.musl-x86_64.so.1 /lib/ld-linux-x86-64.so.2
+RUN apk add --no-cache build-base libxml2-dev libxslt-dev mariadb-dev sqlite-dev tzdata gcompat linux-headers
+RUN adduser -u 1000  --disabled-password appuser
+USER 1000
+RUN gem uninstall bundler
+RUN gem install bundler --version '2.2.22'
+RUN bundle config --global frozen 1
+
+RUN mkdir /home/appuser/webapp
+
+WORKDIR /home/appuser/webapp
+
+COPY ./app ./app
+COPY ./bin ./bin
+COPY ./config ./config
+COPY ./db ./db
+COPY ./lib ./lib
+COPY ./public ./public
+COPY ./storage ./storage
+COPY ./config.ru ./
+COPY ./babel.config.js ./
+COPY ./.browserslistrc ./
+
+COPY Gemfile Gemfile.lock ./
+RUN mkdir -p tmp/pids
+
+USER root
+RUN gem update --system
+RUN chmod 644 config/master.key
+RUN chown -R appuser:appuser /home/appuser/webapp
+USER 1000
+#RUN gem install nokogiri -v "1.8" -- --use-system-libraries --with-xml2-config=/usr/bin/xml2-config --with-xslt-config=/usr/bin/xslt-config
+RUN bundle config --global set deploy_platform_default x86_64-linux
+RUN bundle config build.nokogiri --use-system-libraries --with-xml2-config=/usr/bin/xml2-config --with-xslt-config=/usr/bin/xslt-config
+RUN bundle config build.grpc --with-cflags=-D__va_copy=va_copy
+RUN bundle config build.google-protobuf --with-cflags=-D__va_copy=va_copy
+#RUN bundle lock --remove-platform x86_64-darwin-20
+RUN bundle install
+RUN gem uninstall grpc google-protobuf --force
+RUN gem install grpc:1.41.0 --platform ruby -i /usr/local/bundle
+RUN bundle install
+
+CMD ["rails", "server", "--environment", "production"]
