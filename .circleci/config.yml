@@ -20,7 +20,6 @@ jobs:
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: Socks
           aws-region: ap-northeast-1
-          aws-profile: default
           install-kubectl: true
       - run:
           command: |
