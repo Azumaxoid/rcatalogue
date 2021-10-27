@@ -14,6 +14,12 @@ jobs:
       # - run:
       #     command: |
       #       echo "Digest is: $(</tmp/digest.txt)"
+      - aws-cli/setup:
+          profile-name: default
+      - run:
+          command: |
+            aws eks list-clusters
+          name: check eks
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: Socks
           aws-region: ap-northeast-1
@@ -29,7 +35,7 @@ jobs:
 orbs:
   docker: circleci/docker@1.7.0
   kubernetes: circleci/kubernetes@0.12.0
-  aws-eks: circleci/aws-eks@1.1.0
+  aws-eks: circleci/aws-cli@2.0.1
 version: 2.1
 workflows:
   commit:
