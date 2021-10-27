@@ -19,7 +19,7 @@ jobs:
       - run:
           command: |
             aws eks list-clusters
-          name: check eks
+          name: check aws
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: Socks
           aws-region: ap-northeast-1
@@ -35,7 +35,8 @@ jobs:
 orbs:
   docker: circleci/docker@1.7.0
   kubernetes: circleci/kubernetes@0.12.0
-  aws-eks: circleci/aws-cli@2.0.1
+  aws-cli: circleci/aws-cli@2.0.1
+  aws-eks: circleci/aws-eks@1.1.0
 version: 2.1
 workflows:
   commit:
