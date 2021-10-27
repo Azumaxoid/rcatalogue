@@ -2,24 +2,21 @@ jobs:
   build-and-push:
     executor: docker/docker
     steps:
-      # - setup_remote_docker
-      # - checkout
-      # - docker/check
-      # - docker/build:
-      #     image: azumax/rcatalogue
-      #     extra_build_args: --build-arg COMMIT_SHA=`git rev-parse HEAD` --build-arg RELEASE_TAG=prod 
-      # - docker/push:
-      #     digest-path: /tmp/digest.txt
-      #     image: azumax/rcatalogue
-      # - run:
-      #     command: |
-      #       echo "Digest is: $(</tmp/digest.txt)"
-      - aws-cli/setup:
-          profile-name: default
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: azumax/rcatalogue
+          extra_build_args: --build-arg COMMIT_SHA=`git rev-parse HEAD` --build-arg RELEASE_TAG=prod 
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: azumax/rcatalogue
       - run:
           command: |
-            aws eks list-clusters
-          name: check aws
+            echo "Digest is: $(</tmp/digest.txt)"
+  update-kubernetes:
+    executor: docker/docker
+    steps:
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: Socks
           aws-region: ap-northeast-1
@@ -27,11 +24,7 @@ jobs:
           install-kubectl: true
       - run:
           command: |
-            cat /home/circleci/.kube/config
-          name: check config
-      - run:
-          command: |
-            kubectl get services -A
+            kubectl get services
           name: Test cluster
 orbs:
   docker: circleci/docker@1.7.0
@@ -42,4 +35,4 @@ version: 2.1
 workflows:
   commit:
     jobs:
-      - build-and-push
+      - update-kubernetes
