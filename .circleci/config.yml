@@ -2,20 +2,29 @@ jobs:
   build-and-push:
     executor: docker/docker
     steps:
-      - setup_remote_docker
-      - checkout
-      - docker/check
-      - docker/build:
-          image: azumax/rcatalogue
-          extra_build_args: --build-arg COMMIT_SHA=`git rev-parse HEAD` --build-arg RELEASE_TAG=prod 
-      - docker/push:
-          digest-path: /tmp/digest.txt
-          image: azumax/rcatalogue
+      # - setup_remote_docker
+      # - checkout
+      # - docker/check
+      # - docker/build:
+      #     image: azumax/rcatalogue
+      #     extra_build_args: --build-arg COMMIT_SHA=`git rev-parse HEAD` --build-arg RELEASE_TAG=prod 
+      # - docker/push:
+      #     digest-path: /tmp/digest.txt
+      #     image: azumax/rcatalogue
+      # - run:
+      #     command: |
+      #       echo "Digest is: $(</tmp/digest.txt)"
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: Socks
+          install-kubectl: true
       - run:
           command: |
-            echo "Digest is: $(</tmp/digest.txt)"
+            kubectl get services
+          name: Test cluster
 orbs:
   docker: circleci/docker@1.7.0
+  kubernetes: circleci/kubernetes@0.12.0
+  aws-eks: circleci/aws-eks@1.1.0
 version: 2.1
 workflows:
   commit:
