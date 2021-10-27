@@ -37,7 +37,15 @@ version: 2.1
 workflows:
   workflow:
     jobs:
-      - build-and-push
+      - build-and-push:
+          filters:
+            branches:
+              only: 
+                - master 
       - update-kubernetes:
           requires:
             - build-and-push
+          filters:
+            branches:
+              only: 
+                - master 
