@@ -16,6 +16,7 @@ jobs:
       #       echo "Digest is: $(</tmp/digest.txt)"
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: Socks
+          aws-region: ap-northeast-1
           install-kubectl: true
       - run:
           command: |
