@@ -31,7 +31,9 @@ orbs:
   aws-eks: circleci/aws-eks@1.1.0
 version: 2.1
 workflows:
-  commit:
+  workflow:
     jobs:
       - build-and-push
-      - update-kubernetes
+      - update-kubernetes:
+          requires:
+            - build-and-push
