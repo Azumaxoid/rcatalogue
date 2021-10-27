@@ -1,0 +1,25 @@
+services:
+  catalogue:
+    build:
+      context: .
+      args:
+        - COMMIT_SHA='commit_sha'
+        - RELEASE_TAG='dev'
+    image: azumax/rcatalogue:test
+    container_name: "catalogue"
+    environment:
+      - NEW_RELIC_APP_NAME=local_catalogue
+      - NEW_RELIC_LICENSE_KEY=1fb2b458f2181e0f9239e438da72fffb5144NRAL
+      - NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+      - NEW_RELIC_INFINITE_TRACING_TRACE_OBSERVER_HOST=04f23304-ae8f-4232-b884-a51dc9a41baf.aws-ap-southeast-1.tracing.edge.nr-data.net
+      - DB_HOST=localhost
+    ports:
+      - "3000:3000"
+    links:
+      - "rcatalogue-mysql"
+  rcatalogue-mysql:
+    image: azumax/catalogue-db:test
+    container_name: "rcatalogue-mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=fake_password
+      - MYSQL_DATABASE=socksdb
