@@ -31,5 +31,9 @@ RUN chmod 644 config/master.key
 RUN chown -R appuser:appuser /home/appuser/webapp
 USER 1000
 RUN bundle install
+ARG COMMIT_SHA="sha"
+ARG RELEASE_TAG="dev"
+ENV NEW_RELIC_METADATA_COMMIT=$COMMIT_SHA
+ENV NEW_RELIC_METADATA_RELEASE_TAG=$RELEASE_TAG
 
 CMD ["rails", "server", "--environment", "production"]
