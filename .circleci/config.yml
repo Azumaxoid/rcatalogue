@@ -1,0 +1,23 @@
+jobs:
+  build-and-push:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: azumax/rcatalogue:test
+          extra_build_args: --build-arg COMMIT_SHA=`git rev-parse HEAD` --build-arg RELEASE_TAG=prod 
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: azumax/rcatalogue:test
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
+orbs:
+  docker: circleci/docker@1.7.0
+version: 2.1
+workflows:
+  commit:
+    jobs:
+      - build-and-push
