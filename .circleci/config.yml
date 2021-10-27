@@ -20,6 +20,10 @@ jobs:
           install-kubectl: true
       - run:
           command: |
+            cat /home/circleci/.kube/config
+          name: check config
+      - run:
+          command: |
             kubectl get services
           name: Test cluster
 orbs:
