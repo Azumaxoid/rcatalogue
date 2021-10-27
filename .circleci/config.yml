@@ -7,13 +7,12 @@ jobs:
       - docker/check
       - docker/build:
           image: azumax/rcatalogue
+          tag: test
           extra_build_args: --build-arg COMMIT_SHA=`git rev-parse HEAD` --build-arg RELEASE_TAG=prod 
       - docker/push:
           digest-path: /tmp/digest.txt
+          tag: test
           image: azumax/rcatalogue
-      - run:
-          command: |
-            echo "Digest is: $(</tmp/digest.txt)"
   update-kubernetes:
     executor: docker/docker
     steps:
@@ -23,7 +22,7 @@ jobs:
           install-kubectl: true
       - run:
           command: |
-            kubectl get services
+            kubectl -n sock-shop-nr rollout restart deploy catalogue
           name: Test cluster
 orbs:
   docker: circleci/docker@1.7.0
@@ -34,4 +33,5 @@ version: 2.1
 workflows:
   commit:
     jobs:
+      - build-and-push
       - update-kubernetes
