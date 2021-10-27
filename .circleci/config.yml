@@ -13,6 +13,10 @@ jobs:
           digest-path: /tmp/digest.txt
           tag: test
           image: azumax/rcatalogue
+      - run:
+          command: |
+            curl -X POST "https://api.newrelic.com/v2/applications/543022464/deployments.json" \
+            -H "Api-Key:$NEW_RELIC_API_KEY" -H "Content-Type: application/json" -d '{"deployment": {"revision": "'`git rev-parse HEAD`'","user": "CircleCI","timestamp": "'`date +'%Y-%m-%dT%H:%M:%S'Z`'"}}'
   update-kubernetes:
     executor: docker/docker
     steps:
@@ -33,15 +37,7 @@ version: 2.1
 workflows:
   workflow:
     jobs:
-      - build-and-push:
-          filters:
-            branches:
-              only: 
-                - master 
+      - build-and-push
       - update-kubernetes:
           requires:
             - build-and-push
-          filters:
-            branches:
-              only: 
-                - master 
