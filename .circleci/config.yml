@@ -13,17 +13,18 @@ jobs:
           digest-path: /tmp/digest.txt
           tag: test
           image: azumax/rcatalogue
-      - run:
-          command: |
-            curl -X POST "https://api.newrelic.com/v2/applications/543022464/deployments.json" \
-            -H "Api-Key:$NEW_RELIC_API_KEY" -H "Content-Type: application/json" -d '{"deployment": {"revision": "'`git rev-parse HEAD`'","user": "CircleCI","timestamp": "'`date +'%Y-%m-%dT%H:%M:%S'Z`'"}}'
   update-kubernetes:
     executor: docker/docker
     steps:
+      - checkout
       - aws-eks/update-kubeconfig-with-authenticator:
           cluster-name: Socks
           aws-region: ap-northeast-1
           install-kubectl: true
+      - run:
+          command: |
+            curl -X POST "https://api.newrelic.com/v2/applications/543022464/deployments.json" \
+            -H "Api-Key:$NEW_RELIC_API_KEY" -H "Content-Type: application/json" -d '{"deployment": {"revision": "'`git rev-parse HEAD`'","user": "Auto Deploy","timestamp": "'`date +'%Y-%m-%dT%H:%M:%S'Z`'"}}'
       - run:
           command: |
             kubectl -n sock-shop-nr rollout restart deploy catalogue
