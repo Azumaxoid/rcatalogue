@@ -2,6 +2,8 @@ const https = require('https');
 const request = function (option, requestData) {
   return new Promise((res, rev) => {
     let data = '';
+    console.log(option);
+    console.log(requestData);
     const req = https.request(option, (response) => {
       console.log('statusCode:', response.statusCode);
       response.on('data', (chunk) => {
@@ -29,7 +31,7 @@ const jobEventName = 'CircleCIJob';
 const nrKey = process.argv[4];
 const nrInsightIngestKey = process.argv[5];
 let date = new Date();
-date.setHours(date.getHours()-1);
+date.setHours(date.getHours()-10);
 const dateStr = `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T${date.getHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}Z`;
 console.log(dateStr)
 const circleciOpt = {
