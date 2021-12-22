@@ -24,17 +24,17 @@ const request = function (option, requestData) {
 
 const projectName = 'github/Azumaxoid/rcatalogue';
 const workflowName = 'workflow';
-const circleciKey = process.argv[2];
-const nrAccount = process.argv[3];
+const circleciKey = process.env.CIRCLECI_KEY;
+const nrAccount = process.env.NR_ACCOUNT;
 const wfEventName = 'CircleCIWorkflow';
 const jobEventName = 'CircleCIJob';
-const nrKey = process.argv[4];
-const nrInsightIngestKey = process.argv[5];
+const nrKey = process.env.NR_KEY;
+const nrInsightIngestKey = process.env.NR_II_KEY;
 let date = new Date();
 date.setHours(date.getHours()-10);
-console.log(process.argv[2])
-console.log(process.argv[3])
-console.log(process.argv[3])
+console.log(circleciKey)
+console.log(nrAccount)
+console.log(nrKey)
 const dateStr = `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T${date.getHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}Z`;
 console.log(dateStr)
 const circleciOpt = {
