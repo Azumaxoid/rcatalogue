@@ -8,6 +8,7 @@ on:
 
 jobs:
   syncStatus:
+    environment: CIRCLECI_INTEGRATION
     runs-on: ubuntu-latest
 
     steps:
