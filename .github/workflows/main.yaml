@@ -23,5 +23,4 @@ jobs:
           NR_KEY: ${{ secrets.NR_KEY }}
           NR_II_KEY: ${{ secrets.NR_II_KEY }}
         run: |
-          node scripts/status.js "$CIRCLECI_KEY" "$NR_ACCOUNT" "$NR_KEY" "$NR_II_KEY"
-      
+          node scripts/status.js "$CIRCLECI_KEY" $NR_ACCOUNT $NR_KEY $NR_II_KEY
