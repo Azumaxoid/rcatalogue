@@ -2,8 +2,6 @@ const https = require('https');
 const request = function (option, requestData) {
   return new Promise((res, rev) => {
     let data = '';
-    console.log(option);
-    console.log(requestData);
     const req = https.request(option, (response) => {
       console.log('statusCode:', response.statusCode);
       response.on('data', (chunk) => {
@@ -32,11 +30,7 @@ const nrKey = process.env.NR_KEY;
 const nrInsightIngestKey = process.env.NR_II_KEY;
 let date = new Date();
 date.setHours(date.getHours()-10);
-console.log(circleciKey)
-console.log(nrAccount)
-console.log(nrKey)
 const dateStr = `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T${date.getHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}Z`;
-console.log(dateStr)
 const circleciOpt = {
   protocol: 'https:',
   hostname: 'circleci.com',
@@ -114,6 +108,6 @@ Promise.all([request(nrOpt, JSON.stringify(nrQuery)), request(circleciOpt)]).the
           type: job.type
         }))
         ], []);
-    //return request(nrEventOpt, JSON.stringify([...workflows, ...jobs]));
+    return request(nrEventOpt, JSON.stringify([...workflows, ...jobs]));
   });
 });
