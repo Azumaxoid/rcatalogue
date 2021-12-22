@@ -29,7 +29,7 @@ const jobEventName = 'CircleCIJob';
 const nrKey = process.env.NR_KEY;
 const nrInsightIngestKey = process.env.NR_II_KEY;
 let date = new Date();
-date.setHours(date.getHours()-10);
+date.setHours(date.getHours()-1);
 const dateStr = `${date.getUTCFullYear()}-${date.getUTCMonth()+1}-${date.getUTCDate()}T${date.getHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}Z`;
 const circleciOpt = {
   protocol: 'https:',
