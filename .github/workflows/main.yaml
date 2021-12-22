@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  check_suite:
+    types: [completed]
+
+  workflow_dispatch:
+
+jobs:
+  syncStatus:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - shell: bash
+        env:
+          CIRCLECI_KEY: ${{ secrets.CIRCLECI_KEY }}
+          NR_ACCOUNT: ${{ secrets.NR_ACCOUNT }}
+          NR_KEY: ${{ secrets.NR_KEY }}
+          NR_II_KEY: ${{ secrets.NR_II_KEY }}
+        run: |
+          node scripts/status.js "$CIRCLECI_KEY" "NR_ACCOUNT" "NR_KEY" "NR_II_KEY"
+      
