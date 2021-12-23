@@ -24,8 +24,8 @@ const projectName = 'github/Azumaxoid/rcatalogue';
 const workflowName = 'workflow';
 const circleciKey = process.env.CIRCLECI_KEY;
 const nrAccount = process.env.NR_ACCOUNT;
-const wfEventName = 'CircleCIWorkflow';
-const jobEventName = 'CircleCIJob';
+const wfEventName = 'CIWorkflow';
+const jobEventName = 'CIJob';
 const nrKey = process.env.NR_KEY;
 const nrInsightIngestKey = process.env.NR_II_KEY;
 let date = new Date();
@@ -71,6 +71,7 @@ Promise.all([request(nrOpt, JSON.stringify(nrQuery)), request(circleciOpt)]).the
   // datas[1] is circleci result
   const workflows = datas[1].items.filter(item => existedIds.indexOf(item.id) < 0).map(item => ({
     eventType: wfEventName,
+    ci: 'CircleCI',
     projectName,
     workflowName,
     id: item.id,
@@ -94,6 +95,7 @@ Promise.all([request(nrOpt, JSON.stringify(nrQuery)), request(circleciOpt)]).the
     const jobs = workflowJobs.reduce((res, jobs, idx) =>
         [...res, ...jobs.items, ...jobs.items.map(job => ({
           eventType: jobEventName,
+          ci: 'CircleCI',
           projectName,
           workflowName,
           dependencies: job.dependencies.join(','),
