@@ -1,7 +1,7 @@
 class CatalogueController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    @tags = params[:tags]
+    @tags = (params[:tags] || [])
     @order = params[:order]
     @pageNum = (params[:page] || 1).to_i
     @pageSize = params[:size].to_i
@@ -11,7 +11,7 @@ class CatalogueController < ApplicationController
   end
 
   def size
-    @tags = params[:tags]
+    @tags = (params[:tags] || [])
     @tags ||= []
     @socks = SocksSelector.call(@tags, nil, nil, nil)
     render json: { "size": @socks.size }
