@@ -76,7 +76,7 @@ INSERT INTO sock_tags VALUES ("837ab141-399e-4c1f-9abc-bace40296bac", "1");
 INSERT INTO sock_tags VALUES ("837ab141-399e-4c1f-9abc-bace40296bac", "11");
 INSERT INTO sock_tags VALUES ("837ab141-399e-4c1f-9abc-bace40296bac", "3");
 
-INSERT INTO socks VALUES ("0851f9fe-cd71-490e-a307-d04475b5a733", "Weave special", "Limited issue Weave socks.", 17.15, 33, "/catalogue/images/weave1.jpg", "/catalogue/images/weave2.jpg");
+INSERT INTO socks VALUES ("0851f9fe-cd71-490e-a307-d04475b5a733", "NR special", "Limited issue Weave socks.", 17.15, 0, "/catalogue/images/weave1.jpg", "/catalogue/images/weave2.jpg");
 INSERT INTO sock_tags VALUES ("0851f9fe-cd71-490e-a307-d04475b5a733", "4");
 INSERT INTO sock_tags VALUES ("0851f9fe-cd71-490e-a307-d04475b5a733", "5");
 INSERT INTO sock_tags VALUES ("0851f9fe-cd71-490e-a307-d04475b5a733", "8");
