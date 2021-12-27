@@ -7,7 +7,7 @@ class TagsController < ApplicationController
     @tags = @tags.filter {|item| item != "green"}
     @newTags = []
     for @i in 0..@count-1
-      @newTags.append(@tags[@i])
+      @newTags.append(@tags.fetch(@i))
     end
 
     render json: { "tags": @newTags }
