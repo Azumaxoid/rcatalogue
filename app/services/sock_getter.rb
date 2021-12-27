@@ -7,7 +7,7 @@ class SockGetter
 
   def call
     @sock = Sock.where(sock_id: @sock_id).where.not(name: nil).where("count > ?", 0)[0]
-    @tags = SockTag.where(sock_id: @sock_id).map{|sockTag| Tag.find(sockTag.tag_id).name}
+    @tags = SockTag.where(sock_id: @sock_id).map{|sockTag| Tag.find_by(tag_id: sockTag.tag_id).name}
     return {
       "id": @sock.sock_id,
       "name": @sock.name,
