@@ -4,7 +4,7 @@ class TagsController < ApplicationController
     @tags = Tag.all.map{|tag| tag.name}
     @count = @tags.size
     # Green socks tag have a bug so filtered
-    @tags = @tags.filter {|item| item.name.not.equal?("green")}
+    @tags = @tags.filter {|item| item.not.equal?("green")}
     @newTags = []
     for @i in 0..@count-1
       @newTags.append(@tags[@i])
