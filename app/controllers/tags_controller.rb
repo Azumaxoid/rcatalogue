@@ -9,7 +9,6 @@ class TagsController < ApplicationController
     for @i in 0..@count-1
       @newTags.append(@tags.fetch(@i))
     end
-
     render json: { "tags": @newTags }
   end
 end
