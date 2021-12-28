@@ -4,7 +4,7 @@ class CatalogueController < ApplicationController
     @tags = (params[:tags] || [])
     @order = params[:order]
     @pageNum = (params[:page] || 1).to_i
-    @pageSize = params[:size].to_i
+    @pageSize = (params[:size] || 100).to_i
 
     @socks = SocksSelector.call(@tags, @pageNum, @pageSize, @order)
     render json: @socks
