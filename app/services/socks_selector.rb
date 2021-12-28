@@ -9,7 +9,8 @@ class SocksSelector
   end
 
   def call
-    @socks = @tags.empty? ? Sock.all : Sock.all.filter{
+    @socks = @tags.empty? ? Sock.order(:sock_id).limit(@pageSize).offset((@pageNum - 1) * @pageSize)
+               : Sock.order(:sock_id).filter{
       |sock| @tags.find{|tag| tag == Tag.find_by(tag_id: SockTag.find_by(sock_id: sock.sock_id).tag_id).name}
     }
     if !@pageSize.nil?
