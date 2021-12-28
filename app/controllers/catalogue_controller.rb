@@ -13,7 +13,7 @@ class CatalogueController < ApplicationController
   def size
     @tags = (params[:tags] || [])
     @socks = SocksCounter.call(@tags)
-    render json: { "size": @socks.count }
+    render json: { "size": @socks[:size] }
   end
 
   # 詳細画面が開かない問題対応中
