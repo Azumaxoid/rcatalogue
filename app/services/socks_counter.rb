@@ -24,9 +24,9 @@ EOS
     result = ActiveRecord::Base.connection.select_all(sanitize_sql).to_a
     return result
     else
-      sql = "SELECT count(*) FROM socks ORDER BY socks.sock_id"
+      sql = "SELECT count(*) as count FROM socks ORDER BY socks.sock_id"
       result = ActiveRecord::Base.connection.select_all(sql).to_a
-      return result
+      return { size: result[0]["count"] }
     end
   end
 
