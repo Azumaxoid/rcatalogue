@@ -21,8 +21,8 @@ class CatalogueController < ApplicationController
   def item
     @sock_id = params[:sock_id]
     @sock = SockGetter.call(@sock_id)
-    if @sock.error
-      render json: @sock, :status => :internal_server_error
+    if @sock[:error]
+      render json: @sock, status: :internal_server_error
     else
       render json: @sock
     end
