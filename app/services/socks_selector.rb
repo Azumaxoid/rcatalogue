@@ -15,7 +15,7 @@ class SocksSelector
       SELECT socks.* FROM socks 
       INNER JOIN sock_tags ON socks.sock_id = sock_tags.sock_id 
       INNER JOIN tags ON sock_tags.tag_id = tags.tag_id 
-      WHERE tags.name in (?,?,?,?,?,?,?,?,?,?,?,?) limit ? OFFSET ?
+      WHERE tags.name in (?,?,?,?,?,?,?,?,?,?,?,?) ORDER BY sock_tags.sock_id limit ? OFFSET ?
      EOS
       param = []
       for i in 0..11
