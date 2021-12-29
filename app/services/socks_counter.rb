@@ -6,28 +6,15 @@ class SocksCounter
   end
 
   def call
-    if  @tags.length > 0
-    sql = <<-"EOS"
-SELECT count(*) as count FROM ( 
-  SELECT socks.sock_id FROM socks 
-  INNER JOIN sock_tags ON socks.sock_id = sock_tags.sock_id 
-  INNER JOIN tags ON sock_tags.tag_id = tags.tag_id 
-  WHERE tags.name in (?,?,?,?,?,?,?,?,?,?,?,?) GROUP BY socks.sock_id 
-  ORDER BY socks.sock_id
-) AS t
-EOS
-    param = []
-    for i in 0..11
-      param[i] = @tags[i] || '_'
-    end
-    sanitize_sql = ActiveRecord::Base.send(:sanitize_sql_array, [sql, param].flatten)
-    result = ActiveRecord::Base.connection.select_all(sanitize_sql).to_a
-    return { size: result[0]["count"] }
+    @socks = [];
+    if @tags.length > 0
+      @socks = Sock.all.filter {
+        |sock| @tags.find { |tag| tag == Tag.find(SockTag.find_by(sock_id: sock.sock_id).tag_id).name }
+      }
     else
-      sql = "SELECT count(*) as count FROM socks ORDER BY socks.sock_id"
-      result = ActiveRecord::Base.connection.select_all(sql).to_a
-      return { size: result[0]["count"] }
+      @socks = Sock.all
     end
+    return { size: @socks.size }
   end
 
 end
