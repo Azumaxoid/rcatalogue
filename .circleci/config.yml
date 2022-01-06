@@ -23,7 +23,7 @@ jobs:
           install-kubectl: true
       - run:
           command: |
-            curl -X POST "https://api.newrelic.com/v2/applications/543022464/deployments.json" \
+            curl -X POST "https://api.newrelic.com/v2/applications/1058320274/deployments.json" \
             -H "Api-Key:$NEW_RELIC_API_KEY" -H "Content-Type: application/json" -d '{"deployment": {"revision": "'`git rev-parse HEAD`'","user": "Auto Deploy","timestamp": "'`date +'%Y-%m-%dT%H:%M:%S'Z`'"}}'
       - run:
           command: |
