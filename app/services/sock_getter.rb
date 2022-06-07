@@ -1,6 +1,9 @@
+require 'new_relic/agent/method_tracer'
+
 class SockGetter
   include Service
-
+  include ::NewRelic::Agent::MethodTracer
+  
   def initialize(sock_id)
     @sock_id = sock_id
   end
@@ -21,4 +24,5 @@ class SockGetter
     }
   end
 
+  add_method_tracer :call, 'Custom/SockGetter/call'
 end
