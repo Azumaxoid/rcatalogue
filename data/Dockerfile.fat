@@ -1,4 +1,4 @@
-FROM mysql:8.0.26
+FROM mysql:8.0.34
 
 COPY ./init_fat.sql /docker-entrypoint-initdb.d
 
