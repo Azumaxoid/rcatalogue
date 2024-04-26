@@ -1,4 +1,4 @@
-FROM ruby:3.0.2
+FROM ruby:3.3.1
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN useradd -u 1000 -m -s /bin/bash appuser
